@@ -1,0 +1,10 @@
+# Launch or attach up to the tmux shell automatically on login
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+if command -v tmux &> /dev/null && [[ ! `/usr/bin/tty` = /dev/tty* ]] && [ -n "$ PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ] ; then
+  tmux attach || exec tmux new-session && exit;
+fi
